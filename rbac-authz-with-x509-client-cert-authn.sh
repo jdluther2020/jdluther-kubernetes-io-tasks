@@ -5,7 +5,7 @@
 # - This file although can run as one whole script, it's normally used to create one resource object at a time.
 #
 
-## References
+# References:
 # - https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 # - https://kubernetes.io/docs/reference/access-authn-authz/authentication/
 # - https://kubernetes.io/docs/tasks/administer-cluster/certificates/
