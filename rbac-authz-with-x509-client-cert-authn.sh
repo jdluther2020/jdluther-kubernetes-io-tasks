@@ -71,6 +71,8 @@ openssl req -new -key /tmp/rbac-testuser.key -out /tmp/rbac-testuser.csr -subj "
 CP_CID=$(docker ps | grep control-plane | cut -d' ' -f1) && echo $CP_CID
 docker exec -it $CP_CID cat /etc/kubernetes/pki/ca.crt > /tmp/ca.crt
 docker exec -it $CP_CID cat /etc/kubernetes/pki/ca.key > /tmp/ca.key
+
+# According to the ca.key generate a ca.crt
 openssl x509 -req -in /tmp/rbac-testuser.csr -CA /tmp/ca.crt -CAkey /tmp/ca.key -CAcreateserial -out /tmp/rbac-testuser.crt
 
 # Set the cluster config file with the new user context
