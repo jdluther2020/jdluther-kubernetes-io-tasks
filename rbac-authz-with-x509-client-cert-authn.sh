@@ -67,8 +67,10 @@ openssl genrsa -out /tmp/rbac-testuser.key 2048
 openssl req -new -key /tmp/rbac-testuser.key -out /tmp/rbac-testuser.csr -subj "/CN=rbac-testuser"
 
 # Obtain necessary cert files of the KIND cluster
-docker exec -it 943bb9ebb90a cat /etc/kubernetes/pki/ca.crt > /tmp/ca.crt
-docker exec -it 943bb9ebb90a cat /etc/kubernetes/pki/ca.key > /tmp/ca.key
+
+CP_CID=$(docker ps | grep control-plane | cut -d' ' -f1) && echo $CP_CID
+docker exec -it $CP_CID cat /etc/kubernetes/pki/ca.crt > /tmp/ca.crt
+docker exec -it $CP_CID cat /etc/kubernetes/pki/ca.key > /tmp/ca.key
 openssl x509 -req -in /tmp/rbac-testuser.csr -CA /tmp/ca.crt -CAkey /tmp/ca.key -CAcreateserial -out /tmp/rbac-testuser.crt
 
 # Set the cluster config file with the new user context
