@@ -18,60 +18,60 @@
 #   How would you situate yourself right away, take control of the cluster and prepare yourself to begin working on it?
 #
 
-# Always start with kubectl help, your best friend
+# 1. Always start with kubectl help, your best friend
 kubectl help
 
-# Find out Kubernetes version
+# 2. Find out Kubernetes version
 kubectl version --output=yaml
 
-# Find out Kubernetes version (short version)
+# 3. Find out Kubernetes version (short version)
 kubectl version --short
 
-# Check the cluster nodes
+# 4. Check the cluster nodes
 kubectl get nodes
 
-# Get a little bit more information, go wide!
+# 5. Get a little bit more information, go wide!
 kubectl get nodes -o wide
 
-# Check all the existing namespaces
+# 6. Check all the existing namespaces
 kubectl get namespaces
 
-# Check pods across all namespaces
+# 7. Check pods across all namespaces
 kubectl get pods -A
 
-# Find out what cluster you're operating on
+# 8. Find out what cluster you're operating on
 kubectl config get-contexts
 
-# Find out what's the current cluster context
+# 9. Find out what's the current cluster context
 kubectl config current-context
 
-# View all the contexts, their full config
+# 10. View all the contexts, their full config
 kubectl config view
 
-# View the current context, its full config
+# 11. View the current context, its full config
 kubectl config view --minify
 
-# Know the location of the default config file 
+# 12. Know the location of the default config file
 ls -al $HOME/.kube/config
 
-# Make sure there is no KUBECONFIG environment variable set, because that overrides the default ${HOME}/.kube/config location
+# 13. Make sure there is no KUBECONFIG environment variable set, because that overrides the default ${HOME}/.kube/config location
 # 'kubectl config --help' provides more details
 env | grep KUBECONFIG
 
-# Check to make sure this config file is same as the current context
+# 14. Check to make sure this config file is same as the current context
 TMPFILE=$(mktemp) && kubectl config view --raw > $TMPFILE && diff $TMPFILE ~/.kube/config && rm $TMPFILE
 
-# Let's create a quick pod to test out the cluster
+# 15. Let's create a quick pod to test out the cluster
 # Do a dry run to generate the pod manifest
 kubectl run a-pod --image=nginx --dry-run=client -o yaml
 
-# Looks good, let's create the pod in the default namespace
+# 16. Looks good, let's create the pod in the default namespace
 kubectl run a-pod --image=nginx
 
-# Verify pod's status
+# 17. Verify pod's status
 kubectl get pods -o wide
 
-# Delete the pod if re-running the script
+# 18. Delete the pod if re-running the script
 #kubectl delete pod a-pod
 
 # That's a wrap!
