@@ -70,8 +70,6 @@ kubectl run a-pod --image=nginx
 
 # Verify pod's status
 kubectl get pods -o wide
-NAME    READY   STATUS    RESTARTS   AGE   IP           NODE                              NOMINATED NODE   READINESS GATES
-a-pod   1/1     Running   0          41s   10.244.1.3   basic-multi-node-cluster-worker   <none>           <none>
 
 # Delete the pod if re-running the script
 #kubectl delete pod a-pod
