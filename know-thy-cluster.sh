@@ -67,7 +67,6 @@ kubectl run a-pod --image=nginx --dry-run=client -o yaml
 
 # Looks good, let's create the pod in the default namespace
 kubectl run a-pod --image=nginx
-pod/a-pod created
 
 # Verify pod's status
 kubectl get pods -o wide
