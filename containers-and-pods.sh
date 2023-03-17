@@ -3,7 +3,8 @@
 
 # 
 # Author's NOTE
-# - This file although can run as one whole script, it's normally used to create one resource object at a time for the purpose of learning.
+# - This file although can run as one whole script, some commands will error because sometimes manual edits are required to complete auto-generated pod manifests. Please see command specific instructions below.
+# - Normally the commands are used to create one resource object at a time for the purpose of learning. 
 #
 
 #
