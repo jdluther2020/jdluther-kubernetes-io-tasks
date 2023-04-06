@@ -1,5 +1,5 @@
 # Pods, Deployments, and ReplicaSets
-# Script: pods-and-deployment.sh
+# Script: https://github.com/jdluther2020/jdluther-kubernetes-io-tasks/blob/main/pods-deployments-replicasets.sh
 
 # 
 # Author's NOTE
@@ -144,4 +144,4 @@ kubectl edit deployment nginx-deployment
 # 3. Edit a deployment by changing the original manifest and reapplying it
 kubectl apply -f deploy.yaml
 
-# END OF SCRIPT - pods-and-deployment.sh
+# END OF SCRIPT - pods-deployments-replicasets.sh
