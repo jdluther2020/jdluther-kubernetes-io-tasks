@@ -1,4 +1,5 @@
 # RBAC Authorization with X509 Client Cert Authentication
+# Script: https://github.com/jdluther2020/jdluther-kubernetes-io-tasks/blob/main/rbac-authz-with-x509-client-cert-authn.sh
 
 # 
 # Author's NOTE

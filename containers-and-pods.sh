@@ -1,5 +1,6 @@
 # Containers and Pods
 # Getting comfortable writing containers and pods, the fundamental application building blocks running in a Kubernetes cluster.
+# Script: https://github.com/jdluther2020/jdluther-kubernetes-io-tasks/blob/main/containers-and-pods.sh
 
 # 
 # Author's NOTE

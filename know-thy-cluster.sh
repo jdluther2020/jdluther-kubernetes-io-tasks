@@ -1,5 +1,6 @@
 # Know Thy Cluster
 # A set of initial kubectl commands to explore and test the cluster.
+# Script: https://github.com/jdluther2020/jdluther-kubernetes-io-tasks/blob/main/know-thy-cluster.sh
 
 # 
 # Author's NOTE
