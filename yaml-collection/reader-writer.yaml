@@ -1,0 +1,39 @@
+# File: reader-writer.yaml
+# Ref: persistent-volume-with-hostpath.sh
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reader-writer
+  labels:
+    app: reader-writer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: reader-writer-pod
+  template:
+    metadata:
+      labels:
+        app: reader-writer-pod
+    spec:
+      volumes:
+      - name: host-vol
+        hostPath:
+          path: /var/local/hostpath-data
+          type: DirectoryOrCreate
+      containers:
+      - name: busybox-container
+        image: busybox:stable
+        command: ['sh', '-c', 'file=/output/file.txt; if [ -f $file ]; then cat $file; fi; echo "`date` : Written by pod $POD_NAME running on $NODE_NAME" >> $file; sleep 3600']
+        volumeMounts:
+        - name: host-vol
+          mountPath: /output
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name

@@ -1,0 +1,27 @@
+# File: shared-volume-pod.yaml
+# Ref: persistent-volume-with-hostpath.sh
+apiVersion: v1
+kind: Pod
+metadata:
+  name: shared-volume-pod
+spec:
+  containers:
+  - name: main-container
+    image: busybox
+    command: ['sh', '-c', 'while true; do echo "`date` : $CONTAINER_NAME : Test Message" >> /outdir/log.txt; sleep 5; done']
+    env:
+    - name: CONTAINER_NAME
+      value: "main-container"
+    volumeMounts:
+    - name: vol-shared
+      mountPath: /outdir
+  - name: sidecar-container
+    image: alpine
+    command: ['sh', '-c', 'tail -f /indir/log.txt']
+    volumeMounts:
+    - name: vol-shared
+      mountPath: /indir
+  volumes:
+  - name: vol-shared
+    hostPath:
+      path: /usr/share

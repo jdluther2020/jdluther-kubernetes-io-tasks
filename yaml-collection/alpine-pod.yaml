@@ -1,0 +1,35 @@
+# File: alpine-pod.yaml
+# Ref: persistent-volume-with-hostpath.sh
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alpine-pod
+  labels:
+    app: alpine
+spec:
+  containers:
+  - name: alpine-pod-container
+    image: alpine:latest
+    command: ['sh', '-c', 'for dir in /var-local /usr-share /tmpdir; do echo "*** Listing $dir:*** "; ls -l $dir; done; sleep 3600']
+    volumeMounts:
+    - name: vol-var-local
+      mountPath: /var-local
+      readOnly: true
+    - name: vol-usr-share
+      mountPath: /usr-share
+      readOnly: true
+    - name: vol-tmpdir
+      mountPath: /tmpdir
+  volumes:
+  - name: vol-var-local
+    hostPath:
+      path: /var/local
+      type: Directory
+  - name: vol-usr-share
+    hostPath:
+      path: /usr/share
+      type: Directory
+  - name: vol-tmpdir
+    hostPath:
+      path: /tmp
+      type: Directory
