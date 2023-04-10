@@ -19,7 +19,8 @@
 #   new pods will have access to prior content because data persists beyond the lifetime of a pod
 #
 
-# Create deployment manifest
+# Create deployment manifest (to avoid shell variable interpretation, copy the manifest straight instead of cat command)
+# Ideally match number of replicas with  number of cluster nodes. We have 2 nodes, so I am using 2 replicas.
 cat <<EOF | tee reader-writer.yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -61,7 +62,7 @@ spec:
 EOF
 
 # Create the deployment with the manifest
-kubectl apply -f deploy.yaml
+kubectl apply -f reader-writer.yaml
 
 # Verify that the Deployment was created successfully
 kubectl get deployment reader-writer
@@ -70,20 +71,30 @@ kubectl get deployment reader-writer
 kubectl get pods
 
 # Delete any pod belonging to the deployment and new pod will spring up
-# (Alternately delete the deployment and recreate it)
-kubectl delete pod _POD_NAME_
+kubectl delete pod reader-writer-7b6b7dffc4-5p7p2
 
 # Get the deployment new pod listing
 kubectl get pods
 
-# Check log the newest pods created. Expect to see the message written by previous pods.
-kubectl logs _POD_NAME_
+# Check log the newest pods created. Expect to see the message written by the previous pods.
+kubectl logs reader-writer-7b6b7dffc4-24pxk 
 
-# Clean up 
+# Clean up
 # Delete deployment
-kubectl delete -f deploy.yaml
+kubectl delete -f reader-writer.yaml
 
-# Delete the host files (commands applicable to containers as nodes, ssh if dealing with non-container servers)
+# Get cluster nodes listing
+kubectl get nodes
+
+# Check the persistent data written by the deployment even afters its deletion
+# NOTE: 'docker exec' is applicable to containers as nodes, 'ssh' if dealing with non-container servers
+# Worker node 1
+docker exec basic-multi-node-cluster-worker cat /var/local/hostpath-data/file.txt
+
+# Worker node 2 (expect 2 lines since 2 pods ran on it, first by the initial deployment, the second by the new pod)
+docker exec basic-multi-node-cluster-worker2 cat /var/local/hostpath-data/file.txt
+
+# Delete the host files
 docker exec basic-multi-node-cluster-worker rm -f /var/local/hostpath-data/file.txt
 docker exec basic-multi-node-cluster-worker2 rm -f /var/local/hostpath-data/file.txt
 
@@ -91,6 +102,9 @@ docker exec basic-multi-node-cluster-worker2 rm -f /var/local/hostpath-data/file
 #  OBJECTIVE 2 - USING MULTIPLE VOLUMES AND VOLUMEMOUNTS IN A POD
 # - Create a pod with multiple volumes and multiple mountpoints
 #
+
+# Create pod manifest (to avoid shell variable interpretation, copy the manifest straight instead of cat command)
+# Here we will mount 3 folders from the node filesystem and list the folder contents of each mounted volume
 cat <<EOF | tee alpine-pod.yaml
 apiVersion: v1
 kind: Pod
@@ -142,6 +156,8 @@ kubectl logs alpine-pod
 # - Create a pod with two containers sharing the same volume, one for writing, one for reading
 #
 
+# Create the pod manifest with two containers, one writer and another reader
+# (to avoid shell variable interpretation, copy the manifest straight instead of cat command)
 cat <<EOF | shared-volume-pod.yaml
 apiVersion: v1
 kind: Pod
