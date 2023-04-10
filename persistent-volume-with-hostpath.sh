@@ -88,7 +88,7 @@ docker exec basic-multi-node-cluster-worker rm -f /var/local/hostpath-data/file.
 docker exec basic-multi-node-cluster-worker2 rm -f /var/local/hostpath-data/file.txt
 
 #
-#  OBJECTIVE 2 - MULTIPLE VOLUMES AND VOLUMEMOUNTS
+#  OBJECTIVE 2 - USING MULTIPLE VOLUMES AND VOLUMEMOUNTS IN A POD
 # - Create a pod with multiple volumes and multiple mountpoints
 #
 cat <<EOF | tee alpine-pod.yaml
@@ -138,7 +138,7 @@ kubectl logs alpine-pod
 
 
 #
-#  OBJECTIVE 3 -SHARING VOLUME AMONG MULTIPLE CONTAINERS
+#  OBJECTIVE 3 -SHARING VOLUMES AMONG MULTIPLE CONTAINERS
 # - Create a pod with two containers sharing the same volume, one for writing, one for reading
 #
 
