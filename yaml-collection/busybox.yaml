@@ -1,0 +1,22 @@
+# A busybox pod
+# Create: kubectl run busybox --dry-run=client -o yaml --image=busybox --command -- sh '-c' 'sleep 3600' | tee busybox.yaml
+# Quick:  kubectl run -it busybox --image=busybox --restart=Never
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: busybox
+  name: busybox
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - sleep 3600
+    image: busybox
+    name: busybox
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

@@ -1,0 +1,19 @@
+# A quick nginx pod
+# Create: kubectl run nginx --dry-run=client -o yaml --image=nginx | tee nginx.yaml
+# List:   kubectl get pods -o wide 
+# Test:   kubectl exec busyboxplus -- curl _NGINX_POD_IP_
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
