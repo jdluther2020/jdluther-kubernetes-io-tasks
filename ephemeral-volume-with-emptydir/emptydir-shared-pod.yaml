@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: emptydir-shared-pod
+spec:
+  volumes:
+  - name: ehpemeral-volume
+    emptyDir: {}
+  containers:
+  - name: nginx-container
+    image: nginx
+    volumeMounts:
+    - name: ehpemeral-volume
+      mountPath: /usr/share/nginx/html
+  - name: debian-container
+    image: debian
+    volumeMounts:
+    - name: ehpemeral-volume
+      mountPath: /debian-data
+    command: ['sh', '-c', 'echo "$HOSTNAME: Welcome to Nginx! Message written by Debian at `date`!!" > /debian-data/index.html']
+  - name: busyboxplus-container
+    image: radial/busyboxplus
+    command: ['sh', '-c', 'sleep 3600']
+  restartPolicy: Never
