@@ -151,7 +151,7 @@ kubectl apply -f emptydir-sizelimit.yaml
 kubectl get -f emptydir-sizelimit.yaml -o wide
 
 # Test to make sure nginx webserver is responsive
-kubectl exec emptydir-sizelimit -c alpine -- curl _POD_IP
+kubectl exec emptydir-sizelimit -c alpine -- curl _POD_IP_
 
 # Check disk space status of emptyDir volume
 kubectl exec emptydir-sizelimit -c alpine -- df  /html
