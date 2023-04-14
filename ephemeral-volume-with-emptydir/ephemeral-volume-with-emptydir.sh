@@ -161,36 +161,12 @@ kubectl exec emptydir-sizelimit -c alpine -- sh -c "fallocate -l 500M /html/big-
 
 # Check node status. Expect warning for exceeding size limit
 kubectl describe node _NODE_NAME_
-{
-Events:
-  Type     Reason                Age    From     Message
-  ----     ------                ----   ----     -------
-  Warning  EvictionThresholdMet  3m39s  kubelet  Attempting to reclaim ephemeral-storage
-  Normal   NodeHasDiskPressure   3m35s  kubelet  Node k8s-worker1 status is now: NodeHasDiskPressure
-}
 
 # Check pod status. Expect pod termination
 kubectl get -f emptydir-sizelimit.yaml -o wide
-{
-NAME                 READY   STATUS   RESTARTS   AGE   IP               NODE          NOMINATED NODE   READINESS GATES
-emptydir-sizelimit   0/2     Error    1          13m   192.168.194.66   k8s-worker1   <none>           <none>
-}
 
 # Describe pod get mode information. Expect to see eviction warning followed by termination
 kubectl describe pod emptydir-sizelimit
-{
-Status:       Failed
-Reason:       Evicted
-Message:      Usage of EmptyDir volume "ephemeral" exceeds the limit "500Mi".
-...
-Events:
-  Type     Reason               Age    From               Message
-...
-  Warning  Evicted              4m31s  kubelet            Usage of EmptyDir volume "ephemeral" exceeds the limit "500Mi".
-  Normal   Killing              4m31s  kubelet            Stopping container nginx
-  Normal   Killing              4m31s  kubelet            Stopping container alpine
-  Warning  ExceededGracePeriod  4m21s  kubelet            Container runtime did not kill the pod within specified grace period.
-}
 
 # Clean up the terminated pod
 kubectl delete -f emptydir-sizelimit.yaml
