@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      volumes:
+      - name: host-vol
+        hostPath:
+          path: /var/web/data
+          type: DirectoryOrCreate
+      containers:
+      - name: web-app-container
+        image: busybox:stable
+        command: ["/bin/sh", "-c"]
+        args:
+        - >
+          count=0;
+          while true;
+          do
+            file="/data/file-$count.txt";
+            echo "`date` : Written by pod $POD_NAME running on $NODE_NAME" > $file;
+            sleep 10;
+            count=`expr $count + 1`
+          done
+        volumeMounts:
+        - name: host-vol
+          mountPath: /data
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name

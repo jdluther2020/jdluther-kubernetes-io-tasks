@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: file-cleaner
+spec:
+  selector:
+    matchLabels:
+      app: file-cleaner
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: file-cleaner
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: file-cleaner-container
+        image: busybox:stable
+        command: ['sh', '-c', 'while true; do rm `ls -t /data/* | awk "NR>5"`; ls -l /data; sleep 60; done']
+        volumeMounts:
+        - name: host-vol
+          mountPath: /data
+      volumes:
+      - name: host-vol
+        hostPath:
+          path: /var/web/data
+          type: Directory
