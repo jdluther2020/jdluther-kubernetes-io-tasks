@@ -26,7 +26,7 @@ spec:
           type: DirectoryOrCreate
       containers:
       - name: web-app-container
-        image: busybox:stable
+        image: nginx:stable
         command: ["/bin/sh", "-c"]
         args:
         - >
