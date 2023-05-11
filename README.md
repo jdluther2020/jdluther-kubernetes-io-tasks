@@ -1,6 +1,7 @@
 # Mastering Kubernetes One Task at a Time Series Hands-On Scripts
 For step by step instruction on how to use this code repo, please visit the associated blog posts- 
 
+* [Mastering Kubernetes One Task at a Time — DaemonSet Demonstration](https://medium.com/the-aws-way/mastering-kubernetes-one-task-at-a-time-daemonset-demonstration-e857854a5953)
 * [Mastering Kubernetes One Task at a Time — Ephemeral Storage Volumes with ‘emptyDir’](https://medium.com/the-aws-way/mastering-kubernetes-one-task-at-a-time-ephemeral-storage-volumes-with-emptydir-6cb08546b0ff)
 * [Mastering Kubernetes One Task at a Time — Persistent Storage Volumes with ‘hostPath’](https://medium.com/the-aws-way/mastering-kubernetes-one-task-at-a-time-persistent-storage-volumes-with-hostpath-ad645714bcc7)
 * [Mastering Kubernetes One Task at a Time — Know Thy Nodes!](https://medium.com/the-aws-way/the-aws-way-mastering-kubernetes-one-task-at-a-time-know-thy-nodes-e3ad157ac2db)
