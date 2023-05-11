@@ -1,6 +1,6 @@
 # DaemonSets
 # Purpose: Learning to write and deploy DaemonSet workloads in a Kubernetes cluster.
-# Script: 
+# Script: https://github.com/jdluther2020/jdluther-kubernetes-io-tasks/tree/main/daemonsets-demonstration/daemonsets-demonstration.sh
 
 # 
 # Author's NOTE
@@ -13,6 +13,7 @@
 # - https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
 # - https://kubernetes.io/docs/tasks/manage-daemon/rollback-daemon-set/
 # - https://kubernetes.io/docs/tasks/manage-daemon/update-daemon-set/
+# - https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/daemon-set-v1/
 #
 
 #
@@ -68,3 +69,5 @@ kubectl rollout history  ds/file-cleaner --revision=1
 
 # Roll back to a specific revision
 kubectl rollout undo ds/file-cleaner --to-revision=1
+
+# <END OF SCRIPT>
