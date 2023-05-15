@@ -1,4 +1,4 @@
-# DaemonSets
+# DaemonSets Demonstration
 # Purpose: Learning to write and deploy DaemonSet workloads in a Kubernetes cluster.
 # Script: https://github.com/jdluther2020/jdluther-kubernetes-io-tasks/tree/main/daemonsets-demonstration/daemonsets-demonstration.sh
 

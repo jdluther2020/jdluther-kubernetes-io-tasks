@@ -1,0 +1,23 @@
+# TODO: Moodify /usr/share/nginx/html/index.html to show load balancing 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sa-nginx
+  namespace: mkdemo
+spec:
+  selector:
+    matchLabels:
+      app: sa-nginx
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: sa-nginx
+    spec:
+      containers:
+      - name: sa-nginx-container
+        image: nginx:stable
+        ports:
+        - name: http-web-svc
+          containerPort: 80
+         

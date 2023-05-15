@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: client-pod
+spec:
+  containers:
+  - name: client-pod-container
+    image: radial/busyboxplus
+    command: ['sh', '-c', 'while true; do sleep 1; done']
