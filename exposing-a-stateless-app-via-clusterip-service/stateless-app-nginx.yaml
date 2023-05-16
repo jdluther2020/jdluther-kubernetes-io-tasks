@@ -1,4 +1,3 @@
-# TODO: Moodify /usr/share/nginx/html/index.html to show load balancing 
 apiVersion: apps/v1
 kind: Deployment
 metadata:

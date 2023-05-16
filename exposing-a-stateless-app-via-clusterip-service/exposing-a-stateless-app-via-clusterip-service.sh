@@ -61,6 +61,7 @@ for ep_ip in $(kubectl get endpoints sa-service -o=jsonpath="{.subsets[*].addres
 # OBJECTIVE 2 - UNINTERRUPTED SERVICE WHILE DEPLOYMENT PODS CHANGE
 #
 
+# Let's try increasing the number of pods by doubling the replicas from 3 to 6
 kubectl scale deploy sa-nginx --replicas=6 -n mkdemo
 
 # Same service IP, a lot more endpoints
