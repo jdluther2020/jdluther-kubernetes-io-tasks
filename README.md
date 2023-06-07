@@ -1,4 +1,11 @@
 # Mastering Kubernetes One Task at a Time Series Hands-On Scripts
+
+## Clone Repo
+REPO=jdluther-kubernetes-io-tasks && \
+    git clone https://github.com/jdluther2020/$REPO.git && \
+    cd $REPO
+
+## Using Repo Examples
 For step by step instruction on how to use this code repo, please visit the associated blog posts- 
 
 * [Mastering Kubernetes One Task at a Time — Exposing a Stateless Application via ClusterIP Service](https://medium.com/the-aws-way/mastering-kubernetes-one-task-at-a-time-exposing-a-stateless-application-via-clusterip-service-6599a090cc00)
