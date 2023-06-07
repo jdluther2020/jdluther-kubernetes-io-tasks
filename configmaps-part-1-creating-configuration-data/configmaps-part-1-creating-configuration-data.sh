@@ -107,7 +107,7 @@ kubectl create configmap app-cm-05 \
 # Expect a KEY same as the file name (nginx-cm.params) and its contents as the VALUE
 cat app-cm-05.yaml
 
-# Create and verify the CM object app-cm-05
+# Create and verify after creating the CM object app-cm-05
 kubectl create -f app-cm-05.yaml
 kubectl describe configmaps app-cm-05
 
@@ -122,7 +122,7 @@ kubectl create configmap app-cm-06 \
 # Expect two KEYS and their contents as the VALUES
 cat app-cm-06.yaml
 
-# Create and verify the same after creating the CM object app-cm-04
+# Create and verify after creating the CM object app-cm-06
 kubectl create -f app-cm-06.yaml
 kubectl describe configmaps app-cm-06
 
@@ -136,7 +136,7 @@ kubectl create configmap app-cm-07 \
 # See that the filenames are not the KEY but the key that was supplied
 cat app-cm-07.yaml
 
-# Create and verify the same after creating the CM object app-cm-04
+# Create and verify after creating the CM object app-cm-04
 kubectl create -f app-cm-07.yaml
 kubectl describe configmaps app-cm-07
 
@@ -153,7 +153,7 @@ kubectl create configmap app-cm-08 \
 # Expect to see each file as a KEY and its content as the VALUE
 cat app-cm-08.yaml
 
-# Create and verify the same after creating the CM object app-cm-04
+# Create and verify after creating the CM object app-cm-08
 kubectl create -f app-cm-08.yaml
 kubectl describe configmaps app-cm-08
 
