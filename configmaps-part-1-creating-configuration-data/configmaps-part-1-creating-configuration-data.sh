@@ -4,7 +4,7 @@
 
 # 
 # Author's NOTE
-# - This file although can run as one whole script, it's normally used to create one resource object at a time.
+# - This file although can run as one whole script, it's normally used to create one resource object at a time to meet each objective as specified.
 #
 
 #
@@ -98,21 +98,63 @@ kubectl describe configmaps app-cm-04
 
 # Create ConfigMap from a file with --from-file option
 # Unlike the literal KEY=VALUE pairs, this options creates one multi-line data KEY with the filename
-# And bundles the application configuration KEY=VALUE pairs under the multi-line filename data KEY
+# And bundles KEY=VALUE pair content of the file under the multi-line filename data KEY
 kubectl create configmap app-cm-05 \
   --from-file=config-maps-data-dir/nginx-cm.params \
   --dry-run=client -o yaml | tee app-cm-05.yaml
 
-# Create and verify the same after creating the CM object app-cm-05
+# View the app-cm-05.yaml manifest
+# Expect a KEY same as the file name (nginx-cm.params) and its contents as the VALUE
+cat app-cm-05.yaml
+
+# Create and verify the CM object app-cm-05
 kubectl create -f app-cm-05.yaml
 kubectl describe configmaps app-cm-05
 
 # Create ConfigMap from multiple files with multiple --from-file params
+# Each file name becomes the KEY and its content the VALUE
 kubectl create configmap app-cm-06 \
-  --from-env-file=config-maps-data-dir/nginx-cm.params \
-  --from-env-file=config-maps-data-dir/ports.params \
+  --from-file=config-maps-data-dir/nginx-cm.params \
+  --from-file=config-maps-data-dir/ports.params \
   --dry-run=client -o yaml | tee app-cm-06.yaml
+
+# View the app-cm-06.yaml manifest
+# Expect two KEYS and their contents as the VALUES
+cat app-cm-06.yaml
 
 # Create and verify the same after creating the CM object app-cm-04
 kubectl create -f app-cm-06.yaml
 kubectl describe configmaps app-cm-06
+
+# Create CM with --from-file option but use the supplied KEY name instead of using the file name as key
+kubectl create configmap app-cm-07 \
+  --from-file=NGINX-CM=config-maps-data-dir/nginx-cm.params \
+  --from-file=PORTS=config-maps-data-dir/ports.params \
+  --dry-run=client -o yaml | tee app-cm-07.yaml
+
+# View the app-cm-07.yaml manifest
+# See that the filenames are not the KEY but the key that was supplied
+cat app-cm-07.yaml
+
+# Create and verify the same after creating the CM object app-cm-04
+kubectl create -f app-cm-07.yaml
+kubectl describe configmaps app-cm-07
+
+#
+# OBJECTIVE-5: CREATE CONFIGMAPS FROM A DIRECTORY
+#
+
+# Create CM from all the files of a DIRECTORY with --from-file option
+kubectl create configmap app-cm-08 \
+  --from-file=config-maps-data-dir \
+  --dry-run=client -o yaml | tee app-cm-08.yaml
+
+# View the app-cm-08.yaml manifest
+# Expect to see each file as a KEY and its content as the VALUE
+cat app-cm-08.yaml
+
+# Create and verify the same after creating the CM object app-cm-04
+kubectl create -f app-cm-08.yaml
+kubectl describe configmaps app-cm-08
+
+# <END OF SCRIPT>
