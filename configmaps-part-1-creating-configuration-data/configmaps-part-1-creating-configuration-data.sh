@@ -32,25 +32,87 @@ kubectl create cm --help
 #
 
 # Create a ConfigMap manifest with three data KEY=VAL pairs
-kubectl create configmap nginx-cm  \
+kubectl create configmap app-cm-01  \
   --from-literal=rootdir=/usr/share/nginx/html \
   --from-literal=confdir=/etc/nginx/conf \
   --from-literal=indexfile=index.html \
-  --dry-run=client -o yaml | tee nginx-cm.yaml
+  --dry-run=client -o yaml | tee app-cm-01.yaml
 
 # Create the ConfigMap by applying the manifest file
-kubectl create -f nginx-cm.yaml
+kubectl create -f app-cm-01.yaml
 
-# Verify ConfigMap nginx-cm was created
-kubectl get -f nginx-cm.yaml
+# Verify ConfigMap app-cm was created
+kubectl get -f app-cm-01.yaml
 
-# Validate the key=value pair of nginx-cm CM
-kubectl describe configmaps nginx-cm
+# Validate the key=value pairs of nginx-cm CM object
+kubectl describe configmaps app-cm-01
+
+# Create another ConfigMap manifest with six data KEY=VAL pairs
+kubectl create configmap app-cm-02  \
+  --from-literal=rootdir=/usr/share/nginx/html \
+  --from-literal=confdir=/etc/nginx/conf \
+  --from-literal=indexfile=index.html \
+  --from-literal=container_port=80 \
+  --from-literal=service_port=8080 \
+  --from-literal=node_port=30080 \
+  --dry-run=client -o yaml | tee app-cm-02.yaml
+
+# Create ConfigMap app-cm-02
+kubectl create -f app-cm-02.yaml
+
+# Verify app-cm-02 data
+kubectl describe configmaps app-cm-02
 
 #
-# OBJECTIVE-3: CREATE CONFIGMAPS FROM FILES
+# OBJECTIVE-3: CREATE CONFIGMAPS FROM FILES 
 #
 
-# Reproduce the ConfigMap as created from literal key=value pairs
-kubectl create configmap app-cm-01 --from-file=config-maps-data-dir/nginx-cm.params
+# Reproduce the ConfigMap app-cm-01 as created from literal key=value pairs with --from-env-file option
+kubectl create configmap app-cm-03 \
+  --from-env-file=config-maps-data-dir/nginx-cm.params \
+  --dry-run=client -o yaml | tee app-cm-03.yaml
 
+# Check that CM manifests app-cm-01.yaml and app-cm-03.yaml are identical except the names
+diff app-cm-03.yaml app-cm-01.yaml
+
+# Create and verify the same after creating the CM object app-cm-03
+kubectl create -f app-cm-03.yaml
+kubectl describe configmaps app-cm-03
+
+# Reproduce app-cm-02 as created from literal key=value pairs with multiple --from-env-file option
+kubectl create configmap app-cm-04 \
+  --from-env-file=config-maps-data-dir/nginx-cm.params \
+  --from-env-file=config-maps-data-dir/ports.params \
+  --dry-run=client -o yaml | tee app-cm-04.yaml
+
+# Check that CM manifests app-cm-02.yaml and app-cm-04.yaml are identical except the names
+diff app-cm-04.yaml app-cm-02.yaml
+
+# Create and verify the same after creating the CM object app-cm-04
+kubectl create -f app-cm-04.yaml
+kubectl describe configmaps app-cm-04
+
+#
+# OBJECTIVE-4: CREATE CONFIGMAPS FROM FILES
+#
+
+# Create ConfigMap from a file with --from-file option
+# Unlike the literal KEY=VALUE pairs, this options creates one multi-line data KEY with the filename
+# And bundles the application configuration KEY=VALUE pairs under the multi-line filename data KEY
+kubectl create configmap app-cm-05 \
+  --from-file=config-maps-data-dir/nginx-cm.params \
+  --dry-run=client -o yaml | tee app-cm-05.yaml
+
+# Create and verify the same after creating the CM object app-cm-05
+kubectl create -f app-cm-05.yaml
+kubectl describe configmaps app-cm-05
+
+# Create ConfigMap from multiple files with multiple --from-file params
+kubectl create configmap app-cm-06 \
+  --from-env-file=config-maps-data-dir/nginx-cm.params \
+  --from-env-file=config-maps-data-dir/ports.params \
+  --dry-run=client -o yaml | tee app-cm-06.yaml
+
+# Create and verify the same after creating the CM object app-cm-04
+kubectl create -f app-cm-06.yaml
+kubectl describe configmaps app-cm-06
