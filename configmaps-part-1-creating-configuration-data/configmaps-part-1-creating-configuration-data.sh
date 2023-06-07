@@ -20,6 +20,12 @@
 # OBJECTIVE-1: CREATE CONFIGMAPS DECLARATIVE MANIFESTS WITH IMPERATIVE COMMANDS
 #
 
+# Clone Repox. We'll practice the the OBJECTIVES inside the configmap code folder
+REPO=jdluther-kubernetes-io-tasks && \
+    git clone https://github.com/jdluther2020/$REPO.git && \
+    cd $REPO/configmaps-part-1-creating-configuration-data && \
+    pwd
+
 # ConfigMaps can be created from directories, files, or literal values. 
 # 'kubectl --help' is the best and the most reliable way to find out.
 # Look at the examples on the top covering all options
@@ -30,6 +36,7 @@ kubectl create cm --help
 #
 # OBJECTIVE-2: CREATE CONFIGMAPS FROM LITERAL KEY=VALUE PAIRS
 #
+
 
 # Create a ConfigMap manifest with three data KEY=VAL pairs
 kubectl create configmap app-cm-01  \
@@ -64,7 +71,7 @@ kubectl create -f app-cm-02.yaml
 kubectl describe configmaps app-cm-02
 
 #
-# OBJECTIVE-3: CREATE CONFIGMAPS FROM FILES 
+# OBJECTIVE-3: CREATE CONFIGMAPS FROM ENV FILES 
 #
 
 # Reproduce the ConfigMap app-cm-01 as created from literal key=value pairs with --from-env-file option
@@ -98,7 +105,7 @@ kubectl describe configmaps app-cm-04
 
 # Create ConfigMap from a file with --from-file option
 # Unlike the literal KEY=VALUE pairs, this options creates one multi-line data KEY with the filename
-# And bundles KEY=VALUE pair content of the file under the multi-line filename data KEY
+# And it bundles KEY=VALUE pair content of the file under the multi-line filename data KEY
 kubectl create configmap app-cm-05 \
   --from-file=config-maps-data-dir/nginx-cm.params \
   --dry-run=client -o yaml | tee app-cm-05.yaml
