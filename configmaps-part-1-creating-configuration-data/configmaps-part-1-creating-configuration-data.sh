@@ -20,10 +20,11 @@
 # OBJECTIVE-1: CREATE CONFIGMAPS DECLARATIVE MANIFESTS WITH IMPERATIVE COMMANDS
 #
 
-# Clone Repox. We'll practice the the OBJECTIVES inside the configmap code folder
+# Clone Repo. We'll practice the the OBJECTIVES inside the configmap creation code folder
+CM_CDIR=configmaps-part-1-creating-configuration-data \
 REPO=jdluther-kubernetes-io-tasks && \
     git clone https://github.com/jdluther2020/$REPO.git && \
-    cd $REPO/configmaps-part-1-creating-configuration-data && \
+    cd $REPO/$CM_CDIR
     pwd
 
 # ConfigMaps can be created from directories, files, or literal values. 

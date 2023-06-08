@@ -1,0 +1,3 @@
+confdir=/etc/nginx/conf
+indexfile=index.html
+rootdir=/usr/share/nginx/html
