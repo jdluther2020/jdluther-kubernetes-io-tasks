@@ -8,6 +8,7 @@ REPO=jdluther-kubernetes-io-tasks && \
 ## Using Repo Examples
 For step by step instruction on how to use this code repo, please visit the associated blog posts- 
 
+* [Mastering Kubernetes One Task at a Time — ConfigMaps Part 1/2: Creating Configuration Data](https://jdluther.medium.com/mastering-kubernetes-one-task-at-a-time-configmaps-part-1-2-creating-configuration-)
 * [Mastering Kubernetes One Task at a Time — Exposing a Stateless Application via ClusterIP Service](https://medium.com/the-aws-way/mastering-kubernetes-one-task-at-a-time-exposing-a-stateless-application-via-clusterip-service-6599a090cc00)
 * [Mastering Kubernetes One Task at a Time — DaemonSet Demonstration](https://medium.com/the-aws-way/mastering-kubernetes-one-task-at-a-time-daemonset-demonstration-e857854a5953)
 * [Mastering Kubernetes One Task at a Time — Ephemeral Storage Volumes with ‘emptyDir’](https://medium.com/the-aws-way/mastering-kubernetes-one-task-at-a-time-ephemeral-storage-volumes-with-emptydir-6cb08546b0ff)
