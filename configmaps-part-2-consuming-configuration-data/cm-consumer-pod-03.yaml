@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-consumer-pod-03
+spec:
+  containers:
+    - name: cm-consumer-pod-03-container
+      image: radial/busyboxplus
+      command: [ '/bin/sh', '-c', 'ls -al /etc/config/cm01 && ls -al /etc/config/cm02']
+      volumeMounts:
+      - name: cm-01-volume
+        mountPath: /etc/config/cm01
+      - name: cm-02-volume
+        mountPath: /etc/config/cm02
+  volumes:
+    - name: cm-01-volume
+      configMap:
+        name: cm-01
+  restartPolicy: Never

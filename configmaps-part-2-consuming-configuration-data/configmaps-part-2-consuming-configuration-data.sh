@@ -61,7 +61,19 @@ kubectl logs cm-consumer-pod-01 | grep CMENV_
 kubectl create -f cm-consumer-pod-02.yaml
 
 # Verify the ENV vars were set and written to pod logs
+# Filtering our lowecase CM KEY=VALUE pairs
 kubectl logs cm-consumer-pod-02 | egrep '^[[:lower:]]+'
+
+#
+# OBJECTIVE-3: CONSUME CONFIGMAP DATA IN A POD WITH ENVFROM
+#
+
+# Create a pod and read all the keys from specified config files and capture them as env vars
+kubectl create -f cm-consumer-pod-03.yaml
+
+# Verify the ENV vars were set and written to pod logs
+# Filtering our lowecase CM KEY=VALUE pairs
+kubectl logs cm-consumer-pod-02
 
 
 # <END OF SCRIPT>
