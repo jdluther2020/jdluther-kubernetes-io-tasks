@@ -71,9 +71,8 @@ kubectl logs cm-consumer-pod-02 | egrep '^[[:lower:]]+'
 # Create a pod and read all the keys from specified config files and capture them as env vars
 kubectl create -f cm-consumer-pod-03.yaml
 
-# Verify the ENV vars were set and written to pod logs
-# Filtering our lowecase CM KEY=VALUE pairs
-kubectl logs cm-consumer-pod-02
+# Verify the directory listings of ConfigMaps volumes
+kubectl logs cm-consumer-pod-03
 
 
 # <END OF SCRIPT>
