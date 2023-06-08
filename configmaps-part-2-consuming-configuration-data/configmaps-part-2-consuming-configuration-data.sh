@@ -25,15 +25,30 @@
 CM_CDIR=configmaps-part-2-consuming-configuration-data \
 REPO=jdluther-kubernetes-io-tasks && \
     git clone https://github.com/jdluther2020/$REPO.git && \
-    cd $REPO/$CM_CDIR
+    cd $REPO/$CM_CDIR && \
     pwd
 
 # First create two different ConfigMaps objects
 
-# ConfigMap 1 with name cm-01 from a file using --from-env-file option (multiple KEY=VALUE pairs)
+# ConfigMap 1 manifest with name cm-01 from a file using --from-env-file option (multiple KEY=VALUE pairs)
 kubectl create configmap cm-01 \
   --from-env-file=config-maps-data-dir/nginx-cm.params \
   --dry-run=client -o yaml | tee cm-01.yaml
+
+
+# ConfigMap 2 manifest with name cm-02 from a file using --from-env-file option (multiple KEY=VALUE pairs)
+kubectl create configmap cm-02 \
+  --from-env-file=config-maps-data-dir/ports.params \
+  --dry-run=client -o yaml | tee cm-02.yaml
+
+# Create both CMs
+kubectl create -f  cm-01.yaml && kubectl create -f  cm-02.yaml
+
+# Describe CMs and confirm the data
+kubectl describe cm cm-01 && kubectl describe cm cm-02
+
+# Create a pod and read specific keys from different CM objects to ENV vars
+kubectl create -f cm-consumer-pod-01.yaml
 
 
 # <END OF SCRIPT>

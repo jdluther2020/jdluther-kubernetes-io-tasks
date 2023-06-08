@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-consumer-pod-01
+spec:
+  containers:
+    - name: test-container
+      image: radial/busyboxplus
+      command: [ "/bin/sh", "-c", "env" ]
+      env:
+        - name: NGINX_CONF_DIR
+          valueFrom:
+            configMapKeyRef:
+              name: cm-01
+              key: confdir
+        - name: NODE_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: cm-02
+              key: node_port
+  restartPolicy: Never
