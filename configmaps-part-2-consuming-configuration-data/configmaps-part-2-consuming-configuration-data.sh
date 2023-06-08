@@ -65,14 +65,23 @@ kubectl create -f cm-consumer-pod-02.yaml
 kubectl logs cm-consumer-pod-02 | egrep '^[[:lower:]]+'
 
 #
-# OBJECTIVE-3: CONSUME CONFIGMAP DATA IN A POD WITH ENVFROM
+# OBJECTIVE-3: CONSUME CONFIGMAP DATA IN A POD AS VOLUMES
 #
 
-# Create a pod and read all the keys from specified config files and capture them as env vars
+# Create a pod and mount each CM object as as a volume
 kubectl create -f cm-consumer-pod-03.yaml
 
 # Verify the directory listings of ConfigMaps volumes
 kubectl logs cm-consumer-pod-03
 
+#
+# OBJECTIVE-4: CONSUME CONFIGMAP DATA IN A POD AS VOLUMES WITH KEY AS PATHS
+#
+
+# Create a pod and mount each CM object as as a volume and each key as a path of mounted volume
+kubectl create -f cm-consumer-pod-04.yaml
+
+# Verify the directory listing and content of each ConfigMaps key path
+kubectl logs cm-consumer-pod-04
 
 # <END OF SCRIPT>
