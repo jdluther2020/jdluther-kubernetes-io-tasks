@@ -10,9 +10,13 @@ spec:
       args:
       - >
         ls -al /etc/config/cm01/cm01-confdir;
+        echo;
         cat /etc/config/cm01/cm01-confdir;
+        echo;
         ls -al /etc/config/cm02/cm02-nodeport;
+        echo;
         cat /etc/config/cm02/cm02-nodeport;
+        echo;
       volumeMounts:
       - name: cm-01-volume
         mountPath: /etc/config/cm01
