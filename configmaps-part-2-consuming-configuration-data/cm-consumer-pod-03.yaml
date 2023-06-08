@@ -16,4 +16,7 @@ spec:
     - name: cm-01-volume
       configMap:
         name: cm-01
+    - name: cm-02-volume
+      configMap:
+        name: cm-02
   restartPolicy: Never
