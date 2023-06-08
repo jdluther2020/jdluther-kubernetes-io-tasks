@@ -9,15 +9,15 @@ spec:
       command: ['/bin/sh', '-c']
       args:
       - >
-        ls -al /etc/config/cm01-confdir;
-        cat /etc/config/cm01-confdir;
-        ls -al /etc/config/cm02-nodeport;
-        cat /etc/config/cm02-nodeport;
+        ls -al /etc/config/cm01/cm01-confdir;
+        cat /etc/config/cm01/cm01-confdir;
+        ls -al /etc/config/cm02/cm02-nodeport;
+        cat /etc/config/cm02/cm02-nodeport;
       volumeMounts:
       - name: cm-01-volume
-        mountPath: /etc/config
+        mountPath: /etc/config/cm01
       - name: cm-02-volume
-        mountPath: /etc/config
+        mountPath: /etc/config/cm02
   volumes:
     - name: cm-01-volume
       configMap:
@@ -29,6 +29,6 @@ spec:
       configMap:
         name: cm-02
         items:
-        - key: nodeport
+        - key: node_port
           path: cm02-nodeport
   restartPolicy: Never
