@@ -8,12 +8,12 @@ spec:
       image: radial/busyboxplus
       command: [ "/bin/sh", "-c", "env" ]
       env:
-        - name: NGINX_CONF_DIR
+        - name: CMENV_01_NGINX_CONF_DIR
           valueFrom:
             configMapKeyRef:
               name: cm-01
               key: confdir
-        - name: NODE_PORT
+        - name: CMENV_02_NODE_PORT
           valueFrom:
             configMapKeyRef:
               name: cm-02
