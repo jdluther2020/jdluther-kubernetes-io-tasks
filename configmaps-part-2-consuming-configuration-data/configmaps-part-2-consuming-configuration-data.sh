@@ -17,7 +17,7 @@
 #
 
 #
-# OBJECTIVE-1: CONSUME CONFIGMAP DATA IN A POD VIA ENVIRONMENT VARIABLES
+# OBJECTIVE-1: CONSUME CONFIGMAP DATA IN A POD WITH ENV
 #
 
 # Clone Repo. We'll practice the the OBJECTIVES inside the configmap creation code folder
@@ -49,6 +49,15 @@ kubectl describe cm cm-01 && kubectl describe cm cm-02
 
 # Create a pod and read specific keys from different CM objects to ENV vars
 kubectl create -f cm-consumer-pod-01.yaml
+
+# Verify the ENV vars were set and written to pod logs
+kubectl logs cm-consumer-pod-01 | grep CMENV_
+
+#
+# OBJECTIVE-2: CONSUME CONFIGMAP DATA IN A POD WITH ENVFROM
+#
+
+
 
 
 # <END OF SCRIPT>

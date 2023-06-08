@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-consumer-pod-02
+spec:
+  containers:
+    - name: cm-consumer-pod-02-container
+      image: radial/busyboxplus
+      command: [ "/bin/sh", "-c", "env" ]
+      envFrom:
+      - configMapRef:
+          name: cm-01
+      - configMapRef:
+          name: cm-02
+  restartPolicy: Never

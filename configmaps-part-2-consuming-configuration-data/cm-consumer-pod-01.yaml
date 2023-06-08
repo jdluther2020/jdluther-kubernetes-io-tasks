@@ -4,7 +4,7 @@ metadata:
   name: cm-consumer-pod-01
 spec:
   containers:
-    - name: test-container
+    - name: cm-consumer-pod-01-container
       image: radial/busyboxplus
       command: [ "/bin/sh", "-c", "env" ]
       env:
