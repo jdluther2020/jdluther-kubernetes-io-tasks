@@ -22,7 +22,7 @@
 
 # Clone Repo. We'll practice the the OBJECTIVES inside the configmap creation code folder
 
-CM_CDIR=configmaps-part-2-consuming-configuration-data \
+CM_CDIR=configmaps-part-2-consuming-configuration-data && \
 REPO=jdluther-kubernetes-io-tasks && \
     git clone https://github.com/jdluther2020/$REPO.git && \
     cd $REPO/$CM_CDIR && \
