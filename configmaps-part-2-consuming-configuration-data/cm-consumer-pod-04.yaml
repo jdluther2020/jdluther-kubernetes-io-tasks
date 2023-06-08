@@ -10,10 +10,10 @@ spec:
       args:
       - >
         ls -al /etc/config/cm01/cm01-*;
-        cat /etc/config/cm01/cm01-*;
+        cat -E /etc/config/cm01/cm01-*;
         echo;
         ls -al /etc/config/cm02/cm02*;
-        cat /etc/config/cm02/cm02-*;
+        cat -E /etc/config/cm02/cm02-*;
         echo;
       volumeMounts:
       - name: cm-01-volume
