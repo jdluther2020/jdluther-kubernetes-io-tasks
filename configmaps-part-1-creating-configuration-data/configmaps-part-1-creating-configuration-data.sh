@@ -25,7 +25,7 @@ CM_CDIR=configmaps-part-1-creating-configuration-data && \
 REPO=jdluther-kubernetes-io-tasks && \
     git clone https://github.com/jdluther2020/$REPO.git && \
     cd $REPO/$CM_CDIR && \
-    pwd
+    ls -1
 
 # ConfigMaps can be created from directories, files, or literal values. 
 # 'kubectl --help' is the best and the most reliable way to find out.

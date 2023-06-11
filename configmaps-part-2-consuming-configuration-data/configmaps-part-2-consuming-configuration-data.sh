@@ -27,63 +27,118 @@ REPO=jdluther-kubernetes-io-tasks && \
     ls -1
 
 #
-# OBJECTIVE-1: CONSUME CONFIGMAP DATA IN A POD WITH ENV
+# OBJECTIVE 01: Using ConfigMap Data as Container Environment Variables
+# 
+# This illustrates the following two ways of using a CM resource
+# 1. Inside a container command and args
+# 2. Environment variables for a container
 #
 
 # First create two different ConfigMaps objects
 
-# ConfigMap 1 manifest with name cm-01 from a file using --from-env-file option (multiple KEY=VALUE pairs)
+# ConfigMap 1 manifest with name cm-01 from a file 
+# using --from-env-file option (multiple KEY=VALUE pairs)
 kubectl create configmap cm-01 \
   --from-env-file=config-maps-data-dir/nginx-cm.params \
   --dry-run=client -o yaml | tee cm-01.yaml
 
-
-# ConfigMap 2 manifest with name cm-02 from a file using --from-env-file option (multiple KEY=VALUE pairs)
+# ConfigMap 2 manifest with name cm-02 from a file 
+# using --from-env-file option (multiple KEY=VALUE pairs)
 kubectl create configmap cm-02 \
   --from-env-file=config-maps-data-dir/ports.params \
   --dry-run=client -o yaml | tee cm-02.yaml
 
 # Create both CMs
-kubectl create -f  cm-01.yaml && kubectl create -f  cm-02.yaml
+kubectl create -f  cm-01.yaml
+kubectl create -f  cm-02.yaml
 
-# Describe CMs and confirm the data
-kubectl describe cm cm-01 && kubectl describe cm cm-02
+# Describe CMs and confirm the data fields
+kubectl describe cm cm-01
+kubectl describe cm cm-02
+
+# Review the pod file
+cat cm-consumer-pod-01.yaml
 
 # Create a pod and read specific keys from different CM objects to ENV vars
 kubectl create -f cm-consumer-pod-01.yaml
 
+# Make sure pod is running
+kubectl get pods
+
 # Verify the ENV vars were set and written to pod logs
+# I used CMENV_ prefix in the pod to help filtering and looking up
 kubectl logs cm-consumer-pod-01 | grep CMENV_
 
-#
-# OBJECTIVE-2: CONSUME CONFIGMAP DATA IN A POD WITH ENVFROM
-#
+# Another way to look up env vars is by exec'ing to a running pod
+kubectl exec cm-consumer-pod-01  -- env | grep CMENV_
 
-# Create a pod and read all the keys from specified config files and capture them as env vars
+# Successfully captured the CM data as Env Vars
+# And also used them as container command args
+
+#
+# OBJECTIVE 02: ConfigMap Data as Container Env Variables with 'envFrom'
+# Capture all the CM data items with one directive 
+# Instead of selecting one by one like in the previous example with 'env'
+# 
+
+# Review the pod file
+cat cm-consumer-pod-02.yaml
+
+# Create a pod and read all the keys from specified config files 
+# and capture them as env vars with envFrom directive
 kubectl create -f cm-consumer-pod-02.yaml
 
+# Make sure pod creation was successful
+kubectl get pods
+
 # Verify the ENV vars were set and written to pod logs
-# Filtering our lowecase CM KEY=VALUE pairs
+# A quick way to filter our lowecase CM KEY=VALUE pairs
 kubectl logs cm-consumer-pod-02 | egrep '^[[:lower:]]+'
 
+# Another way to look up env vars is by exec'ing to a running pod
+kubectl exec cm-consumer-pod-02  -- env | egrep '^[[:lower:]]+'
+
+# Successfully captured the CM data items as Env Vars with 'envFrom'
+
 #
-# OBJECTIVE-3: CONSUME CONFIGMAP DATA IN A POD AS VOLUMES
+# OBJECTIVE 03: ConfigMap Data as Pod Volume
 #
+
+# Review the pod file
+cat cm-consumer-pod-03.yaml
 
 # Create a pod and mount each CM object as as a volume
 kubectl create -f cm-consumer-pod-03.yaml
 
+# Make sure pod creation was successful
+kubectl get pods
+
 # Verify the directory listings of ConfigMaps volumes
+# The container command executed the list commands
 kubectl logs cm-consumer-pod-03
 
+# Let's pick any file and examine its content
+kubectl exec  cm-consumer-pod-03 -- cat /etc/config/cm01/confdir && echo
+
+# We could also establish an interactive exec session with the pod
+# And have the freedom to do more inside the pod shell
+kubectl exec -it cm-consumer-pod-03 -- sh       
+
+# Successfully configured a ConfigMap as a Volume in the pod
+
 #
-# OBJECTIVE-4: CONSUME CONFIGMAP DATA IN A POD AS VOLUMES WITH KEY AS PATHS
+# OBJECTIVE 04: ConfigMap Data a Specific Path in the Volume
 #
 
-# Create a pod and mount each CM object as as a volume and each key as a path of mounted volume
+# Review the pod file
+cat cm-consumer-pod-04.yaml
+
+# Create a pod and mount each CM object as as a volume 
+# Provide a specific path name to the selected key
 kubectl create -f cm-consumer-pod-04.yaml
 
-# Verify the directory listing and content of each ConfigMaps key path
+# Verify the directory listing and content by using chosen path
+# Refer to the pod file to see the container command and its arguments
 kubectl logs cm-consumer-pod-04
 
-# <END OF SCRIPT>
+# Successfully added ConfigMap data to a specific path in the Volume
