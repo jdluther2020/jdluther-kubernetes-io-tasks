@@ -15,6 +15,7 @@ spec:
         ls -al /etc/config/cm02/cm02*;
         cat /etc/config/cm02/cm02-*;
         echo;
+        sleep 3600;
       volumeMounts:
       - name: cm-01-volume
         mountPath: /etc/config/cm01

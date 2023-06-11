@@ -6,7 +6,7 @@ spec:
   containers:
     - name: cm-consumer-pod-01-container
       image: radial/busyboxplus
-      command: [ '/bin/sh', '-c', 'env ; echo "CMENV_01_NGINX_CONF_DIR: [$(CMENV_01_NGINX_CONF_DIR)], CMENV_02_NODE_PORT: [$(CMENV_02_NODE_PORT)]"']
+      command: [ '/bin/sh', '-c', 'env ; echo "CMENV_01_NGINX_CONF_DIR: [$(CMENV_01_NGINX_CONF_DIR)], CMENV_02_NODE_PORT: [$(CMENV_02_NODE_PORT)]"; sleep 3600']
       env:
         - name: CMENV_01_NGINX_CONF_DIR
           valueFrom:

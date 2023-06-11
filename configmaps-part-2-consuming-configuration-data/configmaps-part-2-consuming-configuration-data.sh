@@ -1,5 +1,5 @@
 # ConfigMaps-Part 2: Consuming Configuration Data
-# Purpose: Learning how to use data stored in ConfigMaps resources inside a pod and container
+# Purpose: Learning how to use or consume data stored in ConfigMaps resources inside a pod and container
 # Script: https://github.com/jdluther2020/jdluther-kubernetes-io-tasks/tree/main/configmaps-part-2-consuming-configuration-data.sh
 
 # 
@@ -17,16 +17,18 @@
 #
 
 #
-# OBJECTIVE-1: CONSUME CONFIGMAP DATA IN A POD WITH ENV
+# CLONE REPO
 #
-
-# Clone Repo. We'll practice the the OBJECTIVES inside the configmap creation code folder
 
 CM_CDIR=configmaps-part-2-consuming-configuration-data && \
 REPO=jdluther-kubernetes-io-tasks && \
     git clone https://github.com/jdluther2020/$REPO.git && \
     cd $REPO/$CM_CDIR && \
-    pwd
+    ls -1
+
+#
+# OBJECTIVE-1: CONSUME CONFIGMAP DATA IN A POD WITH ENV
+#
 
 # First create two different ConfigMaps objects
 
