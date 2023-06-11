@@ -6,7 +6,7 @@ spec:
   containers:
     - name: cm-consumer-pod-03-container
       image: radial/busyboxplus
-      command: [ '/bin/sh', '-c', 'ls -al /etc/config/cm01 && ls -al /etc/config/cm02; ; sleep 3600']
+      command: [ '/bin/sh', '-c', 'ls -al /etc/config/cm01 && ls -al /etc/config/cm02; sleep 3600']
       volumeMounts:
       - name: cm-01-volume
         mountPath: /etc/config/cm01

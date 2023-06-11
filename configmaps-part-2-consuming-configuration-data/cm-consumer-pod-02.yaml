@@ -6,7 +6,7 @@ spec:
   containers:
     - name: cm-consumer-pod-02-container
       image: radial/busyboxplus
-      command: [ "/bin/sh", "-c", "env; ; sleep 3600" ]
+      command: [ '/bin/sh', '-c', 'env; sleep 3600' ]
       envFrom:
       - configMapRef:
           name: cm-01
