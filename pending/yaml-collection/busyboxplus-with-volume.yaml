@@ -1,0 +1,26 @@
+# A busyboxplus pod with hostPath volume attached
+# Test: kubectl exec -it busyboxplus-with-volume -- tail -f /output/file.txt
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busyboxplus-with-volume
+  creationTimestamp: null
+  labels:
+    run: busyboxplus-with-volume
+spec:
+  volumes:
+  - name: host-vol
+    hostPath:
+      path: /var/local/hostpath-data
+      type: DirectoryOrCreate
+  containers:
+  - name: busyboxplus-with-volume-container
+    image: radial/busyboxplus
+    command: ['sh', '-c', 'while true; do echo "Written at `date` on $HOSTNAME" >> /output/file.txt; sleep 10 ; done']
+    volumeMounts:
+    - name: host-vol
+      mountPath: /output
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

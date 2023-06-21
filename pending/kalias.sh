@@ -1,28 +1,13 @@
-#
-# File: $HOME/.krc
-# Kubectl Alias and Environment Variables file.
-# Run 'source $HOME/.krc' if file is modified to take effect in the current shell
-#
+# Setup Aliases and Env Vars
+# Copy/paste the whole thing in any terminal 
+# cat kalias.sh | pbcopy
+# Use them regularly, so that you'll be forced to set them.
 
-#
-# Feature blog: https://medium.com/the-aws-way/kubernetes-certifications-cka-ckad-prep-tip-3-fast-and-furious-with-kubectl-aliases-a56a3095435a
-#
+# Begin
+## Env vars
 
-# Enable Kubectl autocomplete as recommended by Kubernetes cheatsheet
-# Ref: https://kubernetes.io/docs/reference/kubectl/cheatsheet/
-if [ "$SHELL" = "/bin/zsh" ]
-then
-  source <(kubectl completion zsh) 
-elif [ "$SHELL" = "/bin/bash" ]
-then
-  source <(kubectl completion ksh) 
-else
-  echo "$SHELL not recgnized. Skipping kubectl completion."
-fi
-
-#
-# Environment Variables
-#
+sudo chown -LR cloud_user:cloud_user ~/.kube
+alias kacg='kubectl config use-context acgk8s'
 
 export KC=~/.kube/config
 export do='--dry-run=client -o yaml'
@@ -33,9 +18,9 @@ export dn='describe node'
 export dp='describe pod'
 export ds='describe service'
 
-#
-# Aliases
-#
+## Aliases
+
+# Most frequently used command
 alias k=kubectl
 
 # Context and namespace related
@@ -50,26 +35,24 @@ alias kk='kubectl -n kube-system'
 alias kgpk='kubectl -n kube-system get pods'
 alias kgpkw='kubectl -n kube-system get pods -o wide'
 
-# Resource creation, updates and verification
+# Frequently used operational commands
 alias ka='kubectl apply -f'
 alias kad='kubectl apply --dry-run=client -f'
 alias kads='kubectl apply --dry-run=server -f'
 alias kd='kubectl delete -f'
-alias kdelp='kubectl delete pod'
+alias kdelp='kubectl delete pod' # this has the risk async delete, thus needing secondary validation
+alias kg='kubectl get -f'
 alias kr='kubectl replace -f'
 
 # Get commands
-alias kg='kubectl get -f'
 alias kgd='kubectl get deploy'
 alias kgp='kubectl get pods'
-alias kgpf='kubectl get pods -w'
 alias kgpw='kubectl get pods -o wide'
-alias kgpwf='kubectl get pods -o wide -watch'
+alias kgpf='kubectl get pods -w'
 alias kgn='kubectl get nodes'
 alias kgnw='kubectl get nodes -o wide'
 alias kgs='kubectl get svc'
 alias kgsw='kubectl get svc -o wide'
-
 
 # Edit commands
 alias kep='kubectl edit pod'
@@ -88,4 +71,4 @@ alias ke='kubectl exec -it'
 alias kge="kubectl get events --sort-by='.lastTimestamp'"
 alias kl='kubectl logs'
 
-# End of $HOME/.krc
+# End

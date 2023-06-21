@@ -1,0 +1,131 @@
+# Mastering Kubernetes One Task at a Time - Persistent Storage Volumes with 'hostPath'
+
+# 
+# Author's NOTE
+# 1. This file although can run as one whole script, some commands may error because of need for occassional manual edits. 
+# 2. Make the right call after reviewing and following command specific instructions below.
+# 3. Normally the commands are used to create one resource object at a time for the primary purpose of learning. 
+#
+
+#
+# References:
+# Volumes - https://kubernetes.io/docs/concepts/storage/volumes/
+# 
+# 
+#
+
+#
+#  OBJECTIVE 1 - CREATE PERSISTENT VOLUME USING LOCAL DISK OF WORKER NODES
+# - Create writer deployment with each pod writing to its own host node's local disk
+# - Create reader deployment with each pod writing to its own host node's local disk
+#
+
+# Create deployment manifest
+cat <<EOF | tee writer.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: writer
+  labels:
+    app: writer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: writer-pod
+  template:
+    metadata:
+      labels:
+        app: writer-pod
+    spec:
+      volumes:
+      - name: host-vol
+        hostPath:
+          path: /var/local/hostpath-data
+          type: DirectoryOrCreate
+      containers:
+      - image: busybox
+        name: busybox-container
+        command: ['sh', '-c', 'echo "`date` : Written by pod $POD_NAME running on $NODE_NAME" > /output/file.txt']
+        volumeMounts:
+        - name: host-vol
+          mountPath: /output
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+EOF
+
+# Create deployment
+kubectl apply -f deploy.yaml
+
+# Verify the Deployment was created
+kubectl get deployment/nginx-deployment
+
+# Reader pod
+# Create deployment manifest
+cat <<EOF | tee reader.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reader
+  labels:
+    app: reader
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: reader-pod
+  template:
+    metadata:
+      labels:
+        app: reader-pod
+    spec:
+      volumes:
+      - name: host-vol
+        hostPath:
+          path: /var/local/hostpath-data
+          type: Directory
+      containers:
+      - image: busybox
+        name: busybox-container
+        command: ['sh', '-c', 'echo "Read by pod $POD_NAME running on $NODE_NAME" ; cat /input/file.txt']
+        volumeMounts:
+        - name: host-vol
+          mountPath: /input
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+EOF
+
+
+cat <<EOF | tee busybox.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+spec:
+  volumes:
+  - name: host-vol
+    hostPath:
+      path: /var/local/hostpath-data
+      type: Directory
+  containers:
+  - name: busybox
+    image: busybox
+    command: ['sh', '-c', 'cat /input/file.txt']
+    volumeMounts:
+    - name: host-vol
+      mountPath: /input
+EOF

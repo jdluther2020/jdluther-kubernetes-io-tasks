@@ -1,0 +1,21 @@
+# A quick busyboxplus pod
+# kubectl run busyboxplus --dry-run=client -o yaml --image=radial/busyboxplus --command -- sh '-c' 'sleep 3600' | tee busybox-plus.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: busyboxplus
+  name: busyboxplus
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - sleep 3600
+    image: radial/busyboxplus
+    name: busyboxplus
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

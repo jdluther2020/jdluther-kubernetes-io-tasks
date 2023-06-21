@@ -1,0 +1,23 @@
+# A quick debian pod
+# Create: kubectl run debian --dry-run=client -o yaml --image=debian --command -- sh '-c' 'sleep 3600' | tee debian.yaml
+# List:   kubectl get pods -o wide 
+# Test:   kubectl exec debian -- uname -a
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: debian
+  name: debian
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - sleep 3600
+    image: debian
+    name: debian
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

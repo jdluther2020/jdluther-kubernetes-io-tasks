@@ -1,0 +1,54 @@
+# Overwriting default nginx index.html
+# Before cm mount, curl returns default. After mount, custom index.html from cm.
+
+# k create configmap configmap-web-moon-html --from-file=index.html=./index.html -n moon $do | tee cm15.yaml
+# cat cm15.yaml
+
+apiVersion: v1
+data:
+  index.html: |
+    JDL, This Works!
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: configmap-web-moon-html
+  namespace: moon
+
+---
+# k create deploy web-moon -n moon --image=nginx:apline $do | tee deploy15.yaml
+# cat deploy15.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: web-moon
+  name: web-moon
+  namespace: moon
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-moon
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: web-moon
+    spec:
+      volumes:
+        - name: cm-vol
+          configMap:
+            name: configmap-web-moon-html
+      containers:
+      - image: nginx:alpine
+        name: nginx
+        resources: {}
+        volumeMounts:
+        - name: cm-vol
+          mountPath: /usr/share/nginx/html
+status: {}
+---
+# kgp -o wide -n moon
+# curl 192.168.194.72
